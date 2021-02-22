@@ -1,20 +1,18 @@
 app:
   title: Scaffolded Backstage App
   baseUrl: http://localhost:3000
-  listen: 0.0.0.0:3000
 
 organization:
   name: My Company
 
 backend:
-  baseUrl: https://7000-b74ccd7c-a19c-4088-a642-514d6ad274a7.ws-eu01.gitpod.io
+  baseUrl: http://localhost:7000
   listen:
     port: 7000
   csp:
     connect-src: ["'self'", 'http:', 'https:']
   cors:
-    origin: https://3000-b74ccd7c-a19c-4088-a642-514d6ad274a7.ws-eu01.gitpod.io
-    # origin: http://localhost:3000
+    origin: http://localhost:3000
     methods: [GET, POST, PUT, DELETE]
     credentials: true
   database:
@@ -38,14 +36,16 @@ proxy:
     target: 'https://example.com'
     changeOrigin: true
 
+# Reference documentation http://backstage.io/docs/features/techdocs/configuration
+# Note: After experimenting with basic setup, use CI/CD to generate docs
+# and an external cloud storage when deploying TechDocs for production use-case.
+# https://backstage.io/docs/features/techdocs/how-to-guides#how-to-migrate-from-techdocs-basic-to-recommended-deployment-approach
 techdocs:
-  storageUrl: https://7000-b74ccd7c-a19c-4088-a642-514d6ad274a7.ws-eu01.gitpod.io/api/techdocs/static/docs
-  requestUrl: https://7000-b74ccd7c-a19c-4088-a642-514d6ad274a7.ws-eu01.gitpod.io/api/techdocs
+  builder: 'local' # Alternatives - 'external'
   generators:
-    techdocs: 'docker'
-
-lighthouse:
-  baseUrl: http://localhost:3003
+    techdocs: 'docker' # Alternatives - 'local'
+  publisher:
+    type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
 
 auth:
   # see https://backstage.io/docs/tutorials/quickstart-app-auth to know more about enabling auth providers
@@ -70,23 +70,23 @@ catalog:
       target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all-apis.yaml
 
     # Backstage example templates
-    - type: github
+    - type: url
       target: https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend/sample-templates/react-ssr-template/template.yaml
       rules:
         - allow: [Template]
-    - type: github
+    - type: url
       target: https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend/sample-templates/springboot-grpc-template/template.yaml
       rules:
         - allow: [Template]
-    - type: github
+    - type: url
       target: https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend/sample-templates/create-react-app/template.yaml
       rules:
         - allow: [Template]
-    - type: github
+    - type: url
       target: https://github.com/spotify/cookiecutter-golang/blob/master/template.yaml
       rules:
         - allow: [Template]
-    - type: github
+    - type: url
       target: https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend/sample-templates/docs-template/template.yaml
       rules:
         - allow: [Template]
